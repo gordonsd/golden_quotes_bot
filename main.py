@@ -48,13 +48,17 @@ class Bot:
                                  parse_mode='Markdown')
 
     def add_command(self, update, context):
-        context.bot.send_message(chat_id=update.effective_chat.id, text=handler.add_quote(update))
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=handler.add_quote(update))
 
     def del_command(self, update, context):
-        context.bot.send_message(chat_id=update.effective_chat.id, text=handler.delete_quote(update))
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=handler.delete_quote(update))
 
     def show_command(self, update, context):
-        context.bot.send_message(chat_id=update.effective_chat.id, text=handler.show_quotes(update))
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=handler.show_quotes(update),
+                                 parse_mode='Markdown')
 
 
 bot = Bot(token)

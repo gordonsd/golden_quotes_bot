@@ -30,13 +30,17 @@ def prepare_quote(update):
     status = None
     if update.message.reply_to_message.from_user.username == config['BOT']['bot_name']:
         status = 0
+        print(status)
     if Quote.get_or_none(Quote.chat_quote == update.reply_to_message.text,
                          Quote.chat_id == update.effective_chat.id) is not None:
         status = 1
+        print(status)
     if any(regex.match(update.reply_to_message.text) for regex in regexes):
         status = 2
+        print(status)
     if update.reply_to_message is None:
         status = 3
+        print(status)
     return{
         0: config['TEXT']['bot_quote'],
         1: config['TEXT']['exist_quote'],
@@ -46,6 +50,7 @@ def prepare_quote(update):
 
 
 def add_quote(update):
+    print(prepare_quote(update))
     if prepare_quote(update) is None:
         new_message = Quote(chat_quote=update.message.reply_to_message.text,
                             chat_id=update.effective_chat.id,
@@ -59,9 +64,12 @@ def add_quote(update):
                             quote_fromuser_lastname=update.message.from_user.last_name,
                             quote_fromuser_username=update.message.from_user.username)
         new_message.save()
+        print("quote saved")
         text = config['TEXT']['add_quote']
     else:
         text = prepare_quote(update)
+        print("quote ELSE")
+    print("TEXT: {}".format(text))
     return text
 
 
