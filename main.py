@@ -54,7 +54,7 @@ class Bot:
     def del_command(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=handler.delete_quote(update),
-                                 parse_mode='Markdown')
+                                 parse_mode='HTML')
 
     def show_command(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id,
