@@ -74,7 +74,7 @@ def delete_quote(update):
         status = 0
         # print(status)
     if update.effective_chat.type == 'private':
-        status = 1
+        status = 'private'
         # print(status)
     text = text.replace('/forget_wisdom@{} '.format(config['BOT']['bot_name']), '')
     text = text.replace('/forget_wisdom@{}'.format(config['BOT']['bot_name']), '')
@@ -87,14 +87,14 @@ def delete_quote(update):
     print(quote)
     if quote is not None:
         quote.delete_instance()
-        status = 2
+        status = 1
     if quote is None:
-        status = 3
+        status = 2
     return {
         0: config['TEXT']['empty_delete'],
-        1: config['TEXT']['private_alert'],
-        2: config['TEXT']['success_delete'],
-        3: config['TEXT']['fail_delete']
+        'private': config['TEXT']['private_alert'],
+        1: config['TEXT']['success_delete'],
+        2: config['TEXT']['fail_delete']
     }.get(status, None)
 
 
