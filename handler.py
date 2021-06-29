@@ -69,15 +69,18 @@ def delete_quote(update):
     status = None
     # print(status)
     print('UPDATE: {}'.format(update))
-    if update.message.text == ('/forget_wisdom' or '/forget_wisdom@{}'.format(config['BOT']['bot_name'])):
+    text = update.message.text
+    if text == ('/forget_wisdom' or '/forget_wisdom@{}'.format(config['BOT']['bot_name'])):
         status = 0
         # print(status)
     if update.effective_chat.type == 'private':
         status = 1
         # print(status)
-    text = update.message.text.replace('/forget_wisdom@{}'.format(config['BOT']['bot_name']), '')
+    text = text.replace('/forget_wisdom@{}'.format(config['BOT']['bot_name']), '')
+    text = text.replace('/forget_wisdom@{} '.format(config['BOT']['bot_name']), '')
     text = text.replace('/forget_wisdom', '')
-    text = text.replace('@{} '.format(config['BOT']['bot_name']), '')
+    text = text.replace('/forget_wisdom ', '')
+    # text = text.replace('@{} '.format(config['BOT']['bot_name']), '')
     print("TEXT: {}".format(update.message.text))
     print("UPDATED TEXT: {}".format(text))
     quote = Quote.get_or_none(Quote.chat_id == update.effective_chat.id, Quote.chat_quote == text)
