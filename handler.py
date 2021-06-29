@@ -68,6 +68,7 @@ def add_quote(update):
 def delete_quote(update):
     status = None
     text = update.message.text
+    print("YOUR TEXT IS: {}".format(text))
     if text == ('/forget_wisdom' or '/forget_wisdom@{}'.format(config['BOT']['bot_name'])):
         status = 0
     if update.effective_chat.type == 'private':
@@ -83,6 +84,7 @@ def delete_quote(update):
             status = 2
         if quote is None:
             status = 3
+    print("YOUR STATUS: {}".format(status))
     return {
         0: config['TEXT']['empty_delete'],
         1: config['TEXT']['private_alert'],
