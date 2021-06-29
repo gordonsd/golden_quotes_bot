@@ -67,24 +67,24 @@ def add_quote(update):
 
 def delete_quote(update):
     status = None
-    print(status)
+    # print(status)
     print('UPDATE: {}'.format(update))
     if update.message.text == ('/forget_wisdom' or '/forget_wisdom@{}'.format(config['BOT']['bot_name'])):
         status = 0
-        print(status)
+        # print(status)
     if update.effective_chat.type == 'private':
         status = 1
-        print(status)
+        # print(status)
     update.message.text = update.message.text.replace('/forget_wisdom@{}'.format(config['BOT']['bot_name']), '')
     update.message.text = update.message.text.replace('/forget_wisdom', '')
     update.message.text = update.message.text.replace('@{} '.format(config['BOT']['bot_name']), '')
-    print(update.message.text)
+    print("TEXT: {}".format(update.message.text))
     quote = Quote.get_or_none(Quote.chat_id == update.effective_chat.id, Quote.chat_quote == update.message.text)
     print(quote)
     if quote is not None:
         quote.delete_instance()
         status = 2
-    else:
+    if quote is None:
         status = 3
     return {
         0: config['TEXT']['empty_delete'],
