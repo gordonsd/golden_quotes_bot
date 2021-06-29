@@ -3,7 +3,7 @@ import logging
 import handler
 from telegram.ext import Updater, CommandHandler
 
-DEBUG = True
+DEBUG = False
 
 token = os.environ.get('GOLDEN_QUOTE_TOKEN')
 
@@ -45,7 +45,7 @@ class Bot:
     def help_me(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=handler.help_command(update),
-                                 parse_mode='Markdown')
+                                 parse_mode='HTML')
 
     def add_command(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id,
@@ -58,7 +58,7 @@ class Bot:
     def show_command(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=handler.show_quotes(update),
-                                 parse_mode='Markdown')
+                                 parse_mode='HTML')
 
 
 bot = Bot(token)
