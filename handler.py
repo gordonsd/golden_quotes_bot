@@ -31,14 +31,14 @@ def prepare_quote(update):
     if update.message.reply_to_message.from_user.username == config['BOT']['bot_name']:
         status = 0
         print(status)
-    if Quote.get_or_none(Quote.chat_quote == update.reply_to_message.text,
+    if Quote.get_or_none(Quote.chat_quote == update.message.reply_to_message.text,
                          Quote.chat_id == update.effective_chat.id) is not None:
         status = 1
         print(status)
-    if any(regex.match(update.reply_to_message.text) for regex in regexes):
+    if any(regex.match(update.message.reply_to_message.text) for regex in regexes):
         status = 2
         print(status)
-    if update.reply_to_message is None:
+    if update.message.reply_to_message is None:
         status = 3
         print(status)
     return{
