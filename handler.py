@@ -68,30 +68,26 @@ def add_quote(update):
 def delete_quote(update):
     status = None
     text = update.message.text
-    print("YOUR TEXT IS: {}".format(text))
     if text == ('/forget_wisdom' or '/forget_wisdom@{}'.format(config['BOT']['bot_name'])):
-        status = 0
+        status = 'empty'
     if update.effective_chat.type == 'private':
-        status = 1
+        status = 'private'
     text = text.replace('/forget_wisdom@{} '.format(config['BOT']['bot_name']), '')
     text = text.replace('/forget_wisdom@{}'.format(config['BOT']['bot_name']), '')
     text = text.replace('/forget_wisdom ', '')
     text = text.replace('/forget_wisdom', '')
-    print("YOUR STATUS: {}".format(status))
-    print("STATUS CHECK: {}".format(status != (0 or 1)))
-    if status != (0 or 1):
+    if status != ('empty' or 'private'):
         quote = Quote.get_or_none(Quote.chat_id == update.effective_chat.id, Quote.chat_quote == text)
         if quote is not None:
             quote.delete_instance()
-            status = 2
+            status = 'success'
         if quote is None:
-            status = 3
-    print("YOUR STATUS FINAL: {}".format(status))
+            status = 'fail'
     return {
-        0: config['TEXT']['empty_delete'],
-        1: config['TEXT']['private_alert'],
-        2: config['TEXT']['success_delete'],
-        3: config['TEXT']['fail_delete']
+        'empty': config['TEXT']['empty_delete'],
+        'private': config['TEXT']['private_alert'],
+        'success': config['TEXT']['success_delete'],
+        'fail': config['TEXT']['fail_delete']
     }.get(status, None)
 
 
