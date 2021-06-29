@@ -76,7 +76,7 @@ def delete_quote(update):
     text = text.replace('/forget_wisdom@{}'.format(config['BOT']['bot_name']), '')
     text = text.replace('/forget_wisdom ', '')
     text = text.replace('/forget_wisdom', '')
-    if status != (1 or 0):
+    if status != (0 or 1):
         quote = Quote.get_or_none(Quote.chat_id == update.effective_chat.id, Quote.chat_quote == text)
         if quote is not None:
             quote.delete_instance()
