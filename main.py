@@ -3,7 +3,7 @@ import logging
 import handler
 from telegram.ext import Updater, CommandHandler
 
-DEBUG = True
+DEBUG = False
 
 token = os.environ.get('GOLDEN_QUOTE_TOKEN')
 
