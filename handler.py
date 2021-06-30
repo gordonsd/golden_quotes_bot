@@ -28,20 +28,22 @@ def help_command(update):
 
 def prepare_quote(update):
     status = None
-    if update.message.reply_to_message.from_user.username == config['BOT']['bot_name']:
-        status = 0
-    if Quote.get_or_none(Quote.chat_quote == update.message.reply_to_message.text,
-                         Quote.chat_id == update.effective_chat.id) is not None:
-        status = 1
-    if any(regex.match(update.message.reply_to_message.text) for regex in regexes):
-        status = 2
-    if update.message.reply_to_message is None:
-        status = 3
+    if update.message.reply_to_message is not None:
+        if any(regex.match(update.message.reply_to_message.text) for regex in regexes):
+            status = 'dumb'
+        if Quote.get_or_none(Quote.chat_quote == update.message.reply_to_message.text,
+                             Quote.chat_id == update.effective_chat.id) is not None:
+            status = 'exist'
+        if update.message.reply_to_message.from_user.username == config['BOT']['bot_name']:
+            status = 'bot'
+    if update.message.reply_to_message is None and any(regex.match(update.message.text) for regex in regexes):
+        status = 'miss'
+    print("YOUR STATUS: {}".format(status))
     return{
-        0: config['TEXT']['bot_quote'],
-        1: config['TEXT']['exist_quote'],
-        2: config['TEXT']['dumb_quote'],
-        3: config['TEXT']['miss_quote']
+        'bot': config['TEXT']['bot_quote'],
+        'exist': config['TEXT']['exist_quote'],
+        'dumb': config['TEXT']['dumb_quote'],
+        'miss': config['TEXT']['miss_quote']
     }.get(status, None)
 
 
@@ -76,7 +78,7 @@ def delete_quote(update):
     text = text.replace('/forget_wisdom@{}'.format(config['BOT']['bot_name']), '')
     text = text.replace('/forget_wisdom ', '')
     text = text.replace('/forget_wisdom', '')
-    if status != ('empty' or 'private'):
+    if status != 'empty' and status != 'private':
         quote = Quote.get_or_none(Quote.chat_id == update.effective_chat.id, Quote.chat_quote == text)
         if quote is not None:
             quote.delete_instance()
