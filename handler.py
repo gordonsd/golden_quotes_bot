@@ -110,7 +110,7 @@ def get_scroll(scroll):
     for rec in scroll:
         string = '</code> ©<i>'.join(rec)
         list_l.append(string)
-    string = config['TEXT']['scroll_head'] + "\n"
+    string = config['TEXT']['scroll_head'] + "\n\n"
     for i in list_l:
         string += '<code>' + i + "</i>\n\n"
     return string
